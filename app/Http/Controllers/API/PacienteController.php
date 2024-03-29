@@ -8,36 +8,27 @@ use App\Http\Controllers\Controller;
 
 class PacienteController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
-
+     //Reglas de validacion del back
      protected $rules =[
         'nombre_paciente' =>'required|max:25',
         'dui_paciente' =>'required|numeric|max:10',
         'direccion_paciente' =>'required|max:100',
      ];
 
-    public function index()
+    public function index()//Funcion que traera el json desde la bd
     {
         $data = Paciente::get();
        return response()->json($data,200);
     }
 
-    /**
-     * Show the form for creating a new resource.
-     */
-    public function create(Request $request)
+    public function create(Request $request)//Funcion para crear un nuevo paciente
     {
         $request->validate($this->rules);
         Paciente::create($this->igual($request));
         return response()->json(['message'=>'Creado','success'=>'true'],200);
     }
 
-    /**
-     * Store a newly created resource in storage.
-     */
-    public function igual(Request $request)
+    public function igual(Request $request)//Funcion para igualar los datos con el request
     {
         $data['nombre_paciente'] = $request['nombre_paciente'];
         $data['dui_paciente'] = $request['dui_paciente'];
@@ -45,23 +36,15 @@ class PacienteController extends Controller
         return $data;
     }
 
-    public function update(Request $request, $id)
+    public function update(Request $request, $id)//Funcion para actualizar un paciente
     {
         Paciente::find($id)->update($this->igual($request));
         return response()->json(['message'=>'Actualizado','success'=>'true'],200);
     }
 
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function delete($id)
+    public function delete($id)//Funcion para eliminar un registro
     {
       Paciente::find($id)->delete();
       return response()->json(['message'=>'Eliminado','success'=>'true'],200);
-    }
-
-    public function validar($request){
-        $request->validate($this->rules);
-        return true;
     }
 }
