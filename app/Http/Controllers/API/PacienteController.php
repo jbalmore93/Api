@@ -21,7 +21,7 @@ class PacienteController extends Controller
        return response()->json($data,200);
     }
 
-    public function create(Request $request)//Funcion para crear un nuevo paciente
+    public function store(Request $request)//Funcion para crear un nuevo paciente
     {
         $request->validate($this->rules);
         Paciente::create($this->igual($request));
@@ -42,7 +42,7 @@ class PacienteController extends Controller
         return response()->json(['message'=>'Actualizado','success'=>'true'],200);
     }
 
-    public function delete($id)//Funcion para eliminar un registro
+    public function destroy($id)//Funcion para eliminar un registro
     {
       Paciente::find($id)->delete();
       return response()->json(['message'=>'Eliminado','success'=>'true'],200);
